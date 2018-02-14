@@ -17,12 +17,16 @@ f("Luka", "Breberina")();
 2 */
 
 
-function swap(a,b){
-    x = ""
+(function (a,b){
+    x = "";
+    counter = 0;
     for (i = 0;i < a.length;i++){
-        if(x[i] == b){
-            b = "*";
-        }
+        if(a[i] == b){
+            x += "*";
+            counter++;
+        } else x+=a[i];
     }
+    console.log(x);
+    return counter;
     
-}
+})('javascript', 'v');
