@@ -32,15 +32,39 @@
             var averagePrice = sumPrice / this.list.length;
             return averagePrice;
         }
+        this.maxPrice = function () {
+            var maxPrice = this.list[0].price;
+            for(var i = 0; i < this.list.length; i++){
+                var product = this.list[i];
+            }
+            if(product.price > maxPrice){
+                maxPrice = product.price;
+            }
+            return maxPrice;
+        }
+        this.totalPrice = function () {
+            var totalPrice = 0;
+            for (var i = 0; i < this.list.length; i++) {
+                var product = this.list[i];
+                var totalPrice = totalPrice + product.price;
+            }
+            return totalPrice;
+        }
     }
 
     var coffeeExpirationDate = new Date(2018, 7, 13);
     var coffee = new Product("Grand kafa", 102.45, coffeeExpirationDate);
+    var milkExpirationDate = new Date(2018, 9, 13);
     var milk = new Product("Milk", 95, new Date(2018, 8, 15));
+    var chocolateExpirationDate = new Date(2018, 11, 13);
+    var chocolate = new Product("Najlepse zelje", 205.75, chocolateExpirationDate);
 
     var myBag = new ShoppingBag();
     myBag.addProduct(coffee);
     myBag.addProduct(milk);
+    myBag.addProduct(chocolate);
     console.log(myBag.list);
     console.log("The average price is " + myBag.averagePrice());
+    console.log("The highest price is " + myBag.maxPrice());
+    console.log("The total price is " + myBag.totalPrice());
 })();
