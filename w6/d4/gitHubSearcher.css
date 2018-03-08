@@ -1,0 +1,9 @@
+h1 {
+    float: left;
+}
+
+#searchbox {
+    float: right;
+    border-radius: 10px;
+    width: 400px;
+}
