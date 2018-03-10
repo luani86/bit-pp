@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Show Info Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Navbar</a>
+        <form class="form-inline">
+            <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        </form>
+    </nav>
+    <div id="show-info"></div>
+<!-- Seasons List -->
+    <ul id="season-list"> 
+        <h3>Seasons (<span id="season-counter"></span>)</h3>
+    
+        </ul>
+
+        <ul id="cast-list"> 
+                <h3>Cast</h3>
+            
+                </ul>
+    
+    <footer class="flex">Copyright Bit Student 2018</footer>
+
+
+
+
+    <script src="js/dataModule.js"></script>
+    <script src="js/UIModule.js"></script>
+    <script src="js/mainModule.js"></script>
+    <!-- <script>
+        $(mainModule.initSinglePage());
+    </script> -->
+
+    <script>
+        var searchValue = localStorage.getItem('id');
+
+        let showUrl = `http://api.tvmaze.com/shows/${searchValue}/seasons`;
+        let seasonList = $("#season-list");
+
+        var request = $.get(showUrl);
+        request.done(function (seasonsInfo) {
+            console.log(seasonsInfo);
+            
+            UIModule.printSeasons(seasonsInfo);
+        });
+
+
+        // dataModule.createShow(response[0].show.name, response[0].show.image.original, 
+        //     response[0].show.id, response[0].show.summary)
+
+    </script>
+</body>
+
+</html>
