@@ -9,27 +9,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-light bg-light justify-content-between">
-        <a class="navbar-brand">Navbar</a>
+    <nav class="navbar navbar-light bg-dark justify-content-between">
+        <a class="navbar-brand" href="index.html">BitShow</a>
         <form class="form-inline">
             <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         </form>
     </nav>
+    </nav>
     <div id="show-info"></div>
-<!-- Seasons List -->
-    <ul id="season-list"> 
-        <h3>Seasons (<span id="season-counter"></span>)</h3>
+    <!-- Seasons List -->
+    <ul id="search-result"> 
+    </ul>
+    <h1 id="show-name"></h1>
     
-        </ul>
+    <div class="left" id="img-container"></div>
+    <ul id="season-list">
+        <h3>Seasons (
+            <span id="season-counter"></span>)</h3>
 
-        <ul id="cast-list"> 
-                <h3>Cast</h3>
-            
-                </ul>
-    
+    </ul>
+
+    <ul id="cast-list">
+        <h3>Cast</h3>
+
+    </ul>
+    <div>
+        <h3>Show Details</h3>
+        <p id="description-container"></p>
+    </div>
+
     <footer class="flex">Copyright Bit Student 2018</footer>
 
 
@@ -50,11 +62,39 @@
 
         var request = $.get(showUrl);
         request.done(function (seasonsInfo) {
-            console.log(seasonsInfo);
-            
+            //console.log(seasonsInfo);
+
             UIModule.printSeasons(seasonsInfo);
         });
 
+        let castUrl = `http://api.tvmaze.com/shows/${searchValue}/cast`;
+        let castList = $("#cast-list");
+        request = $.get(castUrl);
+        request.done(function (response) {
+            console.log(response);
+            UIModule.printCast(response);
+        });
+
+        let showUrlImg = `http://api.tvmaze.com/shows/${searchValue}`//`http://api.tvmaze.com/shows/${searchValue}`;
+        request = $.get(showUrlImg);
+        request.done(function (response) {
+            console.log(response);
+            UIModule.showImg(response);
+        });
+
+        let descriptionUrl = `http://api.tvmaze.com/shows/${searchValue}`
+        request = $.get(descriptionUrl);
+        request.done(function (response) {
+            console.log(response);
+            UIModule.printDescription(response);
+        });
+
+        let showNameUrl = `http://api.tvmaze.com/shows/${searchValue}`
+        request = $.get(showNameUrl);
+        request.done(function (response) {
+            console.log(response);
+            UIModule.printShowName(response);
+        });
 
         // dataModule.createShow(response[0].show.name, response[0].show.image.original, 
         //     response[0].show.id, response[0].show.summary)

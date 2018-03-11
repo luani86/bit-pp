@@ -10,9 +10,15 @@ var mainModule = (function () {
             console.log(allShows);
             let show = dataModule.createTVShows(allShows);
             UIModule.printAllShows(show.shows);
-        });
 
+            $(".show-container img").on("click", function (){
+                localStorage.setItem("id", $(this).attr("data-id"));
+                location.href = "infopage.html"; 
+            });
+        });
     });
+
+    
 
     //function searchForShow() {
     $("#search").on('keyup', function () {
@@ -38,9 +44,12 @@ function attachListeners() {
         
         localStorage.setItem('id', $(this).attr("value"));
         location.href = "infopage.html";
-
     });
 }
+
+
+    
+
     
 
     // var responseForSeason = [response[0].premierDate, response[0].endDate];
