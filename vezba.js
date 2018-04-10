@@ -131,27 +131,69 @@ searcher = (a) => {
 console.log(searcher(a))
 
 //5.c
-// var a = [1.6, 11.34, 9, 7, 3.11, 8];
-// filterInteger = (a) => {
-//     var i;
-//     var b = [];
-//     for(i=0; i<a.length; i++) {
-//         if(Number.isInteger(a[i])) {
-//             b.push(a[i])
-//         }
-//     }
-//     return b
-// }
-// filterSomeElements = (a, filterInteger) => {
-//     return filterInteger(a)
-// }
-// console.log(filterSomeElements(a, filterInteger(a)))
+var a = [1.6, 11.34, 9, 7, 3.11, 8];
+filterInteger = (a) => {
+    var i;
+    var b = [];
+    for(i=0; i<a.length; i++) {
+        if(Number.isInteger(a[i])) {
+            b.push(a[i])
+        }
+    }
+    return b
+}
+// console.log(filterInteger(a))
+filterSomeElements = (someArray, callbackFunction) => {
+    return callbackFunction(someArray)
+}
+
+console.log(filterSomeElements(a, filterInteger))
 
 //11.a
-var randomNumber = 5 + Math.floor(Math.random() * 16);
-console.log(randomNumber);
+var randomNumber1 = 5 + Math.floor(Math.random() * 15);
+console.log(randomNumber1);
 
-var randomNumber = 50 + Math.floor(Math.random() * 51);
-console.log(randomNumber);
+var randomNumber2 = 50 + Math.floor(Math.random() * 50);
+console.log(randomNumber2);
 
+//6.a
+var shoppingList = [
+    {name: "apples", price: 100.99}, 
+    {name: "milk", price: 200.66}, 
+    {name: "bananas", price: 336.5}
+    ]
+totalPrice = (a) => {
+    var i;
+    var result = 0;
+    for(i=0; i<a.length; i++) {
+        result = result + a[i].price
+    }
+    return result;
+}
+console.log(totalPrice(shoppingList));
+
+averagePrice = (a) => {
+    var i;
+    var result = 0;
+    for(i=0; i<a.length; i++) {
+        result = result + a[i].price
+    }
+    return (result/a.length).toFixed(3);
+}
+console.log(averagePrice(shoppingList));
+
+highestPrice = (a) => {
+    var i;
+    var result = "";
+    var maxPrice = a[0].price;
+    for(i=0; i<a.length; i++) {
+        if(a[i].price > maxPrice) {
+            maxPrice = a[i].price;
+            result = a[i].name
+        }
+    }
+    return result.toUpperCase()
+    
+}
+console.log(highestPrice(shoppingList));
 
