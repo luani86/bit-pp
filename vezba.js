@@ -454,3 +454,216 @@ alternate = (a, b) => {
     return ab;
 }
 console.log(alternate(["a", "b", "c", "d"], [1, 2, 3, 4]))
+
+//4 return array of digits of a number
+arrayOfDigits = (num) => {
+    var stringDigit = num.toString().split("");
+    var newArray = [];
+    for(var i=0; i<stringDigit.length; i++) {
+        var parsedString = parseInt(stringDigit[i]);
+        newArray.push(parsedString);
+    }
+    return newArray;
+}
+console.log(arrayOfDigits(3457));
+
+//5 multiplication table up to 12
+multiplicationTable = () => {
+    var result = "x ";
+    for(var i=0; i<11; i++) {
+        for(var j=0; j<11; j++ ) {
+            if(i == 0 && j > 0) {
+                result += "[" + i + "]"
+            }
+            else if(j == 0 && i > 0) {
+                result += "[" + j + "]"
+            }
+            else if(i > 0 && j > 0) {
+                result += (i * j) + " "
+            }
+        }
+        result += "\n"
+    }
+    return result;
+}
+console.log(multiplicationTable())
+
+//6 Centigrade to Fahrenheit
+centToFahr = (temp) => {
+    return (temp * 1.8 + 32) 
+}
+console.log(centToFahr(8))
+
+//7 maximum number and filter non numbers
+findMax = (ar) => {
+    var max = ar[0]
+    for(var i=0; i<ar.length; i++) {
+        if(typeof ar[i] !== "number") {
+            return "Wrong array"
+        }
+        else if(ar[i] > max) {
+            max = ar[i];
+        }
+    }
+    return max;
+}
+console.log(findMax([4, 6, 11, 29, 2.1]))
+
+//8 find max and min
+maxAndMin = (ar) => {
+    var newAr = [];
+    var max = ar[0];
+    var min = ar[0];
+    for(var i=0; i<ar.length; i++) {
+       
+        if(ar[i] > max) {
+            max = ar[i];
+        }
+        if(ar[i] < min) {
+            min = ar[i];
+        }
+    }
+    return [min, max];
+}
+console.log(maxAndMin([4, 6, 11, 29, 2]));
+
+//9 find median
+findMedian = (ar) => {
+    var sortedAr = ar.sort((a, b) => {return a - b});
+    var newAr = [];
+    var min = ar[0];
+    var median;
+    for(var i=0; i<ar.length; i++) {
+        if(sortedAr.length % 2 !== 0) {
+            median = sortedAr[(sortedAr.length+1) / 2]
+        } else{median = (sortedAr[(sortedAr.length - 2) / 2 ] + sortedAr[(sortedAr.length) / 2]) / 2}
+    }
+    return median;
+}
+console.log(findMedian([4, 2, 5, 1, 3]));
+
+//10 find mostFrequent??
+//10 find ocuurance?
+mostFrequent = (array) => {
+    if(array.length === 0) {
+        return "prazan niz"
+    }
+    var newArray = [];
+    var maxElement = array[0];
+    var maxCount = 1;
+    for(var i=0; i<array.length; i++) {
+        var element = array[i];
+        if(newArray[element] == null) {
+            newArray[element] = 1;
+        } else {
+            newArray[element]++
+        }
+        if(newArray[element] > maxCount) {
+            maxElement = element
+            maxCount = newArray[element];
+        }
+    }
+    return maxElement;
+}
+console.log(mostFrequent(['pear', 'apple', 'orange', 'apple']))
+
+//11 return first middle and last element
+firstMiddleLast = (ar) => {
+    var newArFirst = [ar[0], ar[(ar.length + 1) / 2], ar[ar.length -1]];
+    var newArSecond = [ar[0], ar[ar.length -1]];
+    if(ar.length % 2 !== 0) {
+        return newArFirst;
+    } else {return newArSecond}
+}
+console.log(firstMiddleLast([4, 6, 11, 29, 2]))
+
+//12 find average element
+findAverage = (ar) => {
+    var sum = 0;
+    var count = 0
+    for(var i=0; i<ar.length; i++) {
+        sum = sum + ar[i];
+        count = count + 1;
+    }
+    return sum / count;
+} 
+console.log(findAverage([10, 20, 30]));
+
+//13 greater than average
+greaterAverage = (ar) => {
+    var sum = 0;
+    var count = 0
+    var newAr = [];
+    for(var i=0; i<ar.length; i++) {
+        sum = sum + ar[i];
+        count = count + 1;
+        var averageValue = sum / count;
+    }
+    for(var i=0; i<ar.length; i++) {
+       if (ar[i] > averageValue) {
+           newAr.push(ar[i])
+       }
+    }
+    return averageValue;
+} 
+console.log(greaterAverage([10, 20, 30, 40, 50, 150]));
+
+//14 BMI
+calculateBMI = (mass, height) => {
+    var bmi = mass / (height * height);
+    var result
+    if(bmi <= 15) {
+        result = "Starvation " + bmi;
+    }
+    else if(bmi > 15 && bmi <= 17.5) {
+        result = "Anorexic " + bmi;
+    }
+    else if(bmi > 17.5 && bmi < 18.5) {
+        result = "Underweight " + bmi;
+    }
+    else if(bmi >= 18.5 && bmi < 25) {
+        result = "Ideal " + bmi;
+    }
+    else if(bmi >= 25 && bmi < 30) {
+        result = "Overweight " + bmi;
+    }
+    else if(bmi >= 30 && bmi < 40) {
+        result = "Obese " + bmi;
+    }
+    else if(bmi >= 40) {
+        result = "Morbidly obese " + bmi;
+    }
+    return result;
+}
+console.log(calculateBMI(75, 2.6));
+
+//15 print string per line in a rectangular form
+frame = (ar) => {
+    var line = "*********" 
+ 
+    var newResult = ["*********"];
+    
+    var finalResult;
+    for(var i=0; i<ar.length; i++) {
+        var  result = "* " + ar[i] + " *" ;
+         newResult.push(result)
+         newResult.push('\n')
+    }
+    finalResult = newResult.push(line)
+    return newResult.toString();
+}
+console.log(frame(["lknhikjhbvuihbvhbh", "World", "in", "a", "frame"]));
+
+//15 print string per line in a rectangular form drugi nacin ???
+frame = (ar) => {
+    var line = "*********" 
+    var finalResult;
+    for(var i=0; i<ar.length; i++) {
+        var  result = "* " + ar[i] + " *" ;
+    }
+    return result;
+}
+console.log(frame(["Hello", "World", "in", "a", "frame"]));
+
+[1, 2, 3]
+123
