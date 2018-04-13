@@ -974,3 +974,15 @@ insertElement = (e, p, ar) => {
     return newAr;
 }
 console.log(insertElement(4, 1, [1, 2, 3, 4, 5]))
+
+//9 delete a member
+deleteNum = (e, ar) => {
+    var newAr = [];
+    for(var i=0; i<ar.length; i++) {
+        if(ar[i] !== e) {
+            newAr.push(ar[i]);
+        }
+    }
+    return newAr;
+}
+console.log(deleteNum(4, [4, 6, 2, 8, 2]));
