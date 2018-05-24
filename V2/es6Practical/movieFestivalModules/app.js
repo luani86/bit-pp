@@ -1,29 +1,32 @@
-const dataModule = (function () {
+const dataModule = (() => {
 
     //---------------------------------------------Movie part--------------------------
     let listOfMovies = [];
 
-    function Movie(title, length, genre) {
-        this.title = title;
-        this.length = length;
-        this.genre = genre;
+    class Movie {
+        constructor(title, length, genre) {
+            this.title = title;
+            this.length = length;
+            this.genre = genre;
+        }
+        getData() {
+            return `${this.title}, ${this.length} min, ${this.genre[0].toUpperCase()} ${this.genre[this.genre.length - 1].toUpperCase()}`;
+        }
     }
 
-    Movie.prototype.getData = function () {
-        return `${this.title}, ${this.length} min, ${this.genre[0].toUpperCase()} ${this.genre[this.genre.length - 1].toUpperCase()}`;
-    }
+ 
 
-    function createMovie(title, length, genre) {
+    const createMovie = (title, length, genre) => {
         const currentMovie = new Movie(title, length, genre)
         return currentMovie;
     }
 
-    function updateList(movie) {
+    const updateList = (movie) => {
         listOfMovies.push(movie);
         return listOfMovies;
     }
 
-    function calculateTotalLength() {
+    const calculateTotalLength = () => {
         let totalLength = 0;
         for (let i = 0; i < listOfMovies.length; i++) {
             totalLength += parseInt(listOfMovies[i].length);
@@ -52,8 +55,8 @@ const dataModule = (function () {
     }
 })();
 
-const uiModule = (function () {
-    function collectData() {
+const uiModule = (() => {
+   const collectData = () => {
         const titleInput = document.querySelector("#movie-title");
         const lengthInput = document.querySelector("#movie-length");
         const genreInput = document.querySelector("#movie-genre");
@@ -69,17 +72,17 @@ const uiModule = (function () {
         }
     }
 
-    function displayMovies(movie) {
+    const displayMovies = (movie) => {
         const movieList = document.querySelector(".movie-list");
         movieList.innerHTML += movie.getData() + "</br>";
     }
 
-    function displayTotalLength(totalLength) {
+    const displayTotalLength = (totalLength) => {
         const totalLengthInput = document.querySelector("#total-length");
         totalLengthInput.innerHTML = totalLength;
     }
 
-    function displaySelectMovies(movie) {
+    const displaySelectMovies = (movie) => {
         const selectMovies = document.querySelector("#listOfMovies");
         var optionMovie = document.createElement("option");
         optionMovie.textContent = movie.title;
@@ -96,11 +99,10 @@ const uiModule = (function () {
 
 })();
 
-const mainModule = (function (dataModule, uiModule) {
+const mainModule = ((dataModule, uiModule) => {
     const submitBtn = document.querySelector("#submit-movie");
-    submitBtn.addEventListener("click", init)
-
-    function init() {
+    
+    const init = () => {
         // collect data
         const formData = uiModule.collectData();
         // create movie and add it to the list of movies
@@ -110,5 +112,6 @@ const mainModule = (function (dataModule, uiModule) {
         uiModule.displayMovies(createdMovie);
         uiModule.displayTotalLength(dataModule.calculateTotalLength());
     }
-
+    submitBtn.addEventListener("click", init)
+    
 })(dataModule, uiModule);
