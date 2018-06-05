@@ -29,103 +29,140 @@
 //     Take care that grade can be only number.
 
 const app = (() => {
-class Person {
-    constructor (name, surname) {
-        this.id = parseInt(Math.random() * 100000);
-        this.name = name;
-        this.surname = surname;  
+    const StudentStatus = Object.freeze({
+        REGULAR: "REGULAR",
+        REMOTE: "REMOTE",
+        GRADUATED: "GRADUATED"
+    })
+    class Person {
+        constructor(name, surname) {
+            this.id = parseInt(Math.random() * 100000);
+            this.name = name;
+            this.surname = surname;
+        }
+        getData() {
+            return `${this.name} ${this.surname}`
+        }
     }
-    getData() {
-        return `${this.name} ${this.surname}`
+    class Employee extends Person {
+        constructor(name, surname, salary) {
+            super(name, surname)
+            this.salary = salary;
+        }
     }
-}
-class Employee extends Person {
-    constructor (name, surname, salary) {
-        super(name, surname)
-        this.salary = salary;
+    class Professor extends Employee {
+        constructor(name, surname, salary, officeNum) {
+            super(name, surname, salary)
+            this.officeNum = officeNum;
+        }
+        getData() {
+            return `${super.getData()}, Professor, salary: ${this.salary}, office number: ${this.officeNum} `
+        }
     }
-} 
-class Professor extends Employee {
-    constructor (name, surname, salary, officeNum) {
-        super(name, surname, salary)
-        this.officeNum = officeNum;
-    } 
-    getData() {
-        return `${super.getData()}, Professor, salary: ${this.salary}, office number: ${this.officeNum} `
+    class Exam {
+        constructor(subject, professor, date, grade) {
+            this.subject = subject;
+            this.professor = new Professor(professor.name, professor.surname, professor.salary, professor.officeNum);
+            this.date = new Date(date);
+            this.grade = grade;
+        }
+        getData() {
+            let formatedDate = `${this.date.getDate()}.${this.date.getMonth() + 1}.${this.date.getFullYear()}.`
+            let subjectToUpperCase = this.subject.toUpperCase()
+            let splitedSubject = subjectToUpperCase.split(" ");
+            let subjectFirstWord = splitedSubject[0];
+            let newSubjectWord = []
+            for (let i = 0; i < subjectFirstWord.length; i++) {
+                if (subjectFirstWord[i] !== "A" && subjectFirstWord[i] !== "E" && subjectFirstWord[i] !== "I" && subjectFirstWord[i] !== "O" && subjectFirstWord[i] !== "U" && subjectFirstWord[i] !== "Y") {
+                    newSubjectWord.push(subjectFirstWord[i])
+                }
+            }
+            return `Subject: ${newSubjectWord[0]}, Date: ${formatedDate}, Grade: ${this.grade}`
+        }
     }
-}
-class Exam {
-    constructor(subject, professor, date, grade) {
-        this.subject = subject;
-        this.professor = new Professor(professor.name, professor.surname, professor.salary, professor.officeNum);
-        this.date = new Date(date);
-        this.grade = grade;
-    }
-    getData() {
-        let formatedDate = `${this.date.getDate()}.${this.date.getMonth() + 1}.${this.date.getFullYear()}.`
-        let subjectToUpperCase = this.subject.toUpperCase()
-        let splitedSubject = subjectToUpperCase.split(" ");
-        let subjectFirstWord = splitedSubject[0];
-        let newSubjectWord = []
-        for(let i = 0; i < subjectFirstWord.length; i++) {
-            if(subjectFirstWord[i] !== "A" && subjectFirstWord[i] !== "E" && subjectFirstWord[i] !== "I" && subjectFirstWord[i] !== "O" && subjectFirstWord[i] !== "U" && subjectFirstWord[i] !== "Y") {
-                newSubjectWord.push(subjectFirstWord[i])
+    class Student extends Person {
+        constructor(name, surname, indexNumber, status) {
+            super(name, surname)
+            this.indexNumber = indexNumber;
+            this.status = status;
+            this.passedExams = [];
+        }
+        getNumberOfPassedExams(exam) {
+            if (exam.grade > 5) {
+                this.passedExams.push(exam);
             }
         }
-            return `Abbreviation: ${newSubjectWord[0]}, Date: ${formatedDate}, Grade: ${this.grade}`
-    }
-}
-class Student extends Person {
-    constructor (name , surname , indexNumber , status) {
-        super (name , surname) 
-        this.indexNumber = indexNumber;
-        this.status =status;
-        this.passedExams = [];
-    }
-    getNumberOfPassedExams(exam) {
-      if(exam.grade > 5) {
-          this.passedExams.push(exam);
-      }
-    }
-    getData() {
-        let sumOfGrades = 0;
-        let averageGrade;
-        for(let i = 0; i < this.passedExams.length; i++) {
-            sumOfGrades += this.passedExams[i].grade
+        getData() {
+            let sumOfGrades = 0;
+            let averageGrade;
+            for (let i = 0; i < this.passedExams.length; i++) {
+                sumOfGrades += this.passedExams[i].grade
+            }
+            averageGrade = sumOfGrades / this.passedExams.length;
+            return `Index number: ${this.indexNumber}, name: ${super.getData()}, Average grade: ${averageGrade}, Status: ${this.status}`
         }
-        averageGrade = sumOfGrades / this.passedExams.length;
-        return `Index number: ${this.indexNumber}, name: ${super.getData()}, Average grade: ${averageGrade}`
     }
-}
-class Faculty {
-    constructor (name) {
-        this.name = name;
-        this.listOfStudents = [];
-        this.counterOfTens = 0;
+    class Faculty {
+        constructor(name) {
+            this.name = name;
+            this.listOfStudents = [];
+            this.counterOfTens = 0;
+        }
+        addStudent(student) {
+            this.listOfStudents.push(student);
+            return this.listOfStudents;
+        }
+        countTens() {
+            const numberOfStudents =  this.listOfStudents.length 
+            for (let i = 0; i < numberOfStudents; i++) {
+
+                const student =  this.listOfStudents[i]
+
+                for (let j = 0; j < student.passedExams.length; j++) {
+                    const exam  = student.passedExams[j]
+                    if (exam.grade === 10) {
+                        this.counterOfTens++;
+                    }
+                }
+            }
+            return this.counterOfTens;
+        }
+        getData() {
+            let studentData = [];
+            for( let i = 0 ; i < this.listOfStudents.length ; i++ ) {
+                 studentData.push(this.listOfStudents[i].getData());
+                 studentData.push("\n");
+
+            }
+            return `Faculty: ${this.name}, List of students:\n ${studentData.join("")} Number of tens: ${this.countTens()}`
+        }
     }
-}
 
-const createExam = (subject, professor, date, grade) => {
-    return new Exam(subject, professor, date, grade)
-}
+    const createExam = (subject, professor, date, grade) => {
+        return new Exam(subject, professor, date, grade)
+    }
 
-const createStudent = (name , surname , indexNumber , status) => {
-    return new Student(name , surname , indexNumber , status)
-}
+    const createStudent = (name, surname, indexNumber, status) => {
+        return new Student(name, surname, indexNumber, status)
+    }
 
-const pera = new Professor("pera", "Peric", 1000, 21)
-const zika = new Professor("zika", "zikic", 600, 20)
-console.log(pera.getData())
-const chemistryExam = new Exam("organic chemistry", pera, "10/10/2018", 7)
-console.log(chemistryExam.getData())
-const biologyExam = new Exam("biology", pera, "8/10/2018", 5)
-console.log(biologyExam.getData())
-const mika = new Student("Mika", "Mikic", 33, "regular");
-mika.getNumberOfPassedExams(chemistryExam)
-mika.getNumberOfPassedExams(biologyExam)
-console.log(mika.getData())
+    const pera = new Professor("Pera", "Peric", 1000, 21)
+    const zika = new Professor("Zika", "zikic", 600, 20)
+    // console.log(pera.getData())
+    const chemistryExam = new Exam("organic chemistry", pera, "10/10/2018", 10)
+    // console.log(chemistryExam.getData())
+    
+    const biologyExam = new Exam("biology", pera, "8/10/2018", 10)
+    // console.log(biologyExam.getData())
+    const mika = new Student("Mika", "Mikic", 33, StudentStatus.REGULAR);
+    const jovica = new Student("Jovica", "Krivosija", 33, StudentStatus.REGULAR);
+    mika.getNumberOfPassedExams(chemistryExam)
+    mika.getNumberOfPassedExams(biologyExam)
+    // console.log(mika.getData())
+    const chemFaculty = new Faculty("Chemical Faculty");
+    chemFaculty.addStudent(mika);
+    chemFaculty.addStudent(jovica)
+    console.log(chemFaculty.getData())
 })();
-
-
 
 

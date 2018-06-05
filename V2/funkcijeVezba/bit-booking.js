@@ -48,6 +48,15 @@
 
 
 const app = (() => {
+    const Continent = Object.freeze({
+        ASIA: "ASIA",
+        AUSTRALIA: "AUUSTRALIA",
+        EUROPE: "EUROPE",
+        AFRICA: "AFRICA",
+        SOUTH_AMERICA: "SOUTH AMERICA",
+        NORTH_AMERICA: "NORTH AMERICA"
+    })
+
     class Country {
         constructor(name,odds,continent) {
             this.name = name;
@@ -57,8 +66,8 @@ const app = (() => {
         getContinent() {
             let continentData;
             if(this.continent.includes(" ")) {
-               let splitedContinent = this.continent.split(" ");
-                continentData = `${splitedContinent[0][0].toUpperCase()}${splitedContinent[1][0].toUpperCase()}`;
+               let splittedContinent = this.continent.split(" ");
+                continentData = `${splittedContinent[0][0].toUpperCase()}${splittedContinent[1][0].toUpperCase()}`;
             } else {
                 continentData = `${this.continent[0].toUpperCase()}${this.continent[1].toUpperCase()}`
             }
@@ -94,7 +103,7 @@ const app = (() => {
         }
         getData() {
            let expectedWin = `${(this.country.odds * this.betAmount).toFixed(2)}`
-           return `${this.country.getData()}, ${expectedWin} eur, ${this.name} ${this.surname}, ${this.calculateAge()} years`
+           return `Country: ${this.country.getData()}, Bet amount: ${this.betAmount} eur, Expected win: ${expectedWin} eur, Name: ${this.name} ${this.surname}, Age: ${this.calculateAge()} years`
         }
     }
 
@@ -133,9 +142,9 @@ const app = (() => {
             let listOPlayersData = [];
             for(let i = 0; i < this.listOfPlayers.length; i++) {
                 listOPlayersData.push(this.listOfPlayers[i].getData())
-                listOPlayersData.push("\n\t\t")
+                listOPlayersData.push("\n\t\t\t")
             }
-            return `${this.address.street}, ${this.address.postalCode} ${this.address.city}, sum of all bets: ${this.getSUmOfAllBets()} eur \n\t\t${listOPlayersData.join("")}`
+            return `\t${this.address.street}, ${this.address.postalCode} ${this.address.city}, sum of all bets: ${this.getSUmOfAllBets()} eur \n\t\t\t${listOPlayersData.join("")}`
         }
    
     }
@@ -167,15 +176,14 @@ const app = (() => {
             return sumOfAllBets;
         }
         getData() {
-            // let listOfPlayersData = [];
             let listOfBettingPlacesData = []
-            let headerData = `${this.competition}, ${this.countBettingPlaces()} betting places, ${this.countPlayers()} bets`
+            let headerData = `\tCompetition: ${this.competition}, ${this.countBettingPlaces()} betting places, ${this.countPlayers()} bets \n`
             for(let i = 0; i < this.listOfBettingPlaces.length; i++) {
                 listOfBettingPlacesData.push(this.listOfBettingPlaces[i].getData())
                 listOfBettingPlacesData.push("\n\t")
-           
             }
-            return `${headerData}\n\t${listOfBettingPlacesData.join("")}Total sum of bets: ${this.getSUmOfAllBets()} eur`;
+            let footerData = `Total sum of bets: ${this.getSUmOfAllBets()} eur`
+            return `${headerData}\n\t${listOfBettingPlacesData.join("")}${footerData}`;
         }
     }
     const createPlayer = (name, surname, birthDate, betAmount, country) => {
@@ -185,17 +193,18 @@ const app = (() => {
         return new BettingHouse(address);
     }
 
-    let turkey = new Country("Turkey", 5, "europe")
-    let serbia = new Country("Serbia", 7, "europe")
-    let romania = new Country("Romania", 12, "europe")
-    let burkinaFaso = new Country('Burkina Faso' , 13 , 'africa')
+    let turkey = new Country("Turkey", 5, Continent.EUROPE)
+    let serbia = new Country("Serbia", 7, Continent.EUROPE)
+    let romania = new Country("Romania", 12, Continent.EUROPE)
+    let burkinaFaso = new Country('Burkina Faso' , 13 , Continent.NORTH_AMERICA)
+    console.log(burkinaFaso.getContinent())
 
     const player1 = createPlayer("Pera", "Peric", "10/10/1978", 100, turkey);
     const player2 = createPlayer("Mika", "Mikic", "1/1/1983", 250, serbia);
-    const player3 = createPlayer("Zika", "Zikic", "1/1/1987", 450, romania);
-    const player4 = createPlayer("Jovica", "Krivosija", "1/1/1974", 850, burkinaFaso);
+    const player3 = createPlayer("Zika", "Zikic", "1/1/1987", 1.5, romania);
+    const player4 = createPlayer("Jovica", "Krivosija", "1/1/1986", 15000, burkinaFaso);
 
-    let address1 = new Address(turkey, "Istanbul", 11000, "Baskurt Sokak", 34)
+    let address1 = new Address(turkey, "Istanbul", 11000, "Başkurt Sokak", 34)
     let address2 = new Address(serbia, "Belgrade", 11000, "Nemanjina", 4)
   
     let bettingPlace1 = new BettingPlace(address1);
